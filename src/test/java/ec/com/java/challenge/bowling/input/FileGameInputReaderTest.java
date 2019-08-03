@@ -16,13 +16,12 @@ import java.util.Random;
 
 public class FileGameInputReaderTest {
     private static IGameInputReader fileReader;
-    private static IGameInputValidator inputValidator;
     private final static String FILE_NAME = "input.txt";
-    public static String FILE_PATH = String.format("%s%s%s", System.getProperty("user.dir"), File.separator, FILE_NAME);
+    private static String FILE_PATH = String.format("%s%s%s", System.getProperty("user.dir"), File.separator, FILE_NAME);
 
     @BeforeClass
     public static void init() {
-        inputValidator = new FileTabGameInputValidator();
+        IGameInputValidator inputValidator = new FileTabGameInputValidator();
         fileReader = new FileGameInputReader(FILE_PATH, inputValidator);
     }
 
@@ -51,6 +50,14 @@ public class FileGameInputReaderTest {
         deleteMockFile();
     }
 
+    @Test
+    public void allBadLines() {
+        writeLinesInFile(0, 5);
+        List<String> lines = fileReader.read();
+        Assert.assertEquals(lines.size(), 0);
+        deleteMockFile();
+    }
+
     private static void createMockFile() {
         deleteMockFile();
         File file = new File(FILE_PATH);
@@ -76,11 +83,11 @@ public class FileGameInputReaderTest {
     }
 
     private static void writeToFile(List<String> lines) {
-        BufferedWriter outputWriter = null;
+        BufferedWriter outputWriter;
         try {
             outputWriter = new BufferedWriter(new FileWriter(FILE_PATH));
-            for (int i = 0; i < lines.size(); i++) {
-                outputWriter.write(lines.get(i));
+            for (String line : lines) {
+                outputWriter.write(line);
                 outputWriter.newLine();
             }
             outputWriter.flush();
