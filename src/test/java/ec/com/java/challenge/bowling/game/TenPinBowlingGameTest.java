@@ -42,7 +42,7 @@ public class TenPinBowlingGameTest {
     }
 
     @Test
-    public void addCompleteGame() {
+    public void addCompleteGameWithBonus() {
         initGame();
         //frame 1
         game.roll(10);
@@ -70,6 +70,7 @@ public class TenPinBowlingGameTest {
         //frame 10
         game.roll(7);
         game.roll(3);
+        game.roll(3);
 
         Assert.assertEquals(game.frameScore(1), 20);
         Assert.assertEquals(game.frameScore(2), 17);
@@ -80,7 +81,7 @@ public class TenPinBowlingGameTest {
         Assert.assertEquals(game.frameScore(7), 15);
         Assert.assertEquals(game.frameScore(8), 5);
         Assert.assertEquals(game.frameScore(9), 17);
-        //Assert.assertEquals(game.frameScore(10), 13);
+        Assert.assertEquals(game.frameScore(10), 13);
 
     }
 }
