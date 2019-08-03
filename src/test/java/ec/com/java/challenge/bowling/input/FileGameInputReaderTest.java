@@ -6,9 +6,13 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class FileGameInputReaderTest {
     private static IGameInputReader fileReader;
@@ -30,7 +34,16 @@ public class FileGameInputReaderTest {
         deleteMockFile();
     }
 
-    public static void createMockFile() {
+    @Test
+    public void tenLinesOk() {
+        int linesCant = 10;
+        writeLinesInFile(linesCant, 0);
+        List<String> lines = fileReader.read();
+        Assert.assertEquals(lines.size(), linesCant);
+        deleteMockFile();
+    }
+
+    private static void createMockFile() {
         deleteMockFile();
         File file = new File(FILE_PATH);
         try {
@@ -40,8 +53,40 @@ public class FileGameInputReaderTest {
         }
     }
 
-    public static void deleteMockFile() {
+    private static void deleteMockFile() {
         File file = new File(FILE_PATH);
         file.delete();
+    }
+
+    private static void writeLinesInFile(int valid, int notValid) {
+        createMockFile();
+        List<String> lines = new ArrayList<>();
+        for (int i = 0; i < (valid + notValid); i++) {
+            lines.add(i < valid ? generateValidLine() : generateNotValidLine());
+        }
+        writeToFile(lines);
+    }
+
+    private static void writeToFile(List<String> lines) {
+        BufferedWriter outputWriter = null;
+        try {
+            outputWriter = new BufferedWriter(new FileWriter(FILE_PATH));
+            for (int i = 0; i < lines.size(); i++) {
+                outputWriter.write(lines.get(i));
+                outputWriter.newLine();
+            }
+            outputWriter.flush();
+            outputWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String generateValidLine() {
+        return String.format("player  %s", new Random().nextInt(11));
+    }
+
+    private static String generateNotValidLine() {
+        return "this is an invalid line in file";
     }
 }
