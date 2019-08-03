@@ -3,6 +3,7 @@ package ec.com.java.challenge.bowling.game;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class TenPinBowlingGame implements IBowlingGame{
     private static int MAX_FRAMES = 10;
@@ -21,7 +22,7 @@ public class TenPinBowlingGame implements IBowlingGame{
     public void roll(int pins) {
         BowlingFrame lastFrame = frames.get(frames.size() - 1);
         BowlingFrame currentFrame = lastFrame;
-        boolean isBonusFrame = Arrays.asList(BONUS_FRAME_INDEXES).contains(frames.size() - 1);
+        boolean isBonusFrame = IntStream.of(BONUS_FRAME_INDEXES).anyMatch(i-> i== (frames.size() - 1));
         int turnsAllowed = isBonusFrame ? TURN_PER_BONUS_FRAME : TURN_PER_FRAME;
         boolean turnAvailable = lastFrame.turns.size() < turnsAllowed;
         boolean frameAvailable = frames.size() < MAX_FRAMES;
