@@ -27,4 +27,17 @@ public class TenPinBowlingGameTest {
         Assert.assertEquals(game.frameScore(1), 15);
         Assert.assertEquals(game.frameScore(2), 5);
     }
+
+    @Test
+    public void addStrikeSpareAndSingle() {
+        initGame();
+        game.roll(10);
+        game.roll(7);
+        game.roll(3);
+        game.roll(7);
+        game.roll(2);
+        Assert.assertEquals(game.frameScore(1), 20);
+        Assert.assertEquals(game.frameScore(2), 17);
+        Assert.assertEquals(game.frameScore(3), 9);
+    }
 }
