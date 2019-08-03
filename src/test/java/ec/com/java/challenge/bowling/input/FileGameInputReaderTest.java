@@ -43,6 +43,14 @@ public class FileGameInputReaderTest {
         deleteMockFile();
     }
 
+    @Test
+    public void tenLinesOkOneBadLine() {
+        writeLinesInFile(10, 1);
+        List<String> lines = fileReader.read();
+        Assert.assertEquals(lines.size(), 10);
+        deleteMockFile();
+    }
+
     private static void createMockFile() {
         deleteMockFile();
         File file = new File(FILE_PATH);
