@@ -1,10 +1,14 @@
 package ec.com.java.challenge.bowling.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TenPinBowlingGame implements IBowlingGame{
-
+    private static int MAX_FRAMES = 10;
+    private static int TURN_PER_FRAME = 2;
+    private static int TURN_PER_BONUS_FRAME = 3;
+    private static int[] BONUS_FRAME_INDEXES = {9};
     private List<BowlingFrame> frames;
     private String playerName;
 
@@ -14,7 +18,19 @@ public class TenPinBowlingGame implements IBowlingGame{
     }
 
     public void roll(int pins) {
-
+        BowlingFrame currentFrame = frames.get(frames.size() - 1);
+        boolean isBonusFrame = Arrays.asList(BONUS_FRAME_INDEXES).contains(frames.size() - 1);
+        int turnsAllowed = isBonusFrame ? TURN_PER_BONUS_FRAME : TURN_PER_FRAME;
+        boolean turnAvailable = currentFrame.turns.size() < turnsAllowed;
+        boolean frameAvailable = frames.size() < MAX_FRAMES;
+        if ((currentFrame.isStrike() || currentFrame.isSpare()) && frameAvailable) {
+            BowlingFrame newFrame = new BowlingFrame();
+            newFrame.addTurn(pins);
+            frames.add(newFrame);
+        } else if (turnAvailable) {
+            currentFrame.addTurn(pins);
+        } else
+            System.err.println(String.format("Player %s has no more turn available.", this.playerName));
     }
 
     public int score() {
