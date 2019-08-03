@@ -5,4 +5,5 @@ public interface IBowlingGame {
     int score();
     String playerName();
     int frameScore(int frame);
+    int frameScoreSum(int frame);
 }
