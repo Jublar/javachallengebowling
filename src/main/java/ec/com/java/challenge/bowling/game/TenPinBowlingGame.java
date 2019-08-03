@@ -19,11 +19,17 @@ public class TenPinBowlingGame implements IBowlingGame{
     }
 
     public void roll(int pins) {
-        BowlingFrame currentFrame = (frames.size() == 0) ? new BowlingFrame() : frames.get(frames.size() - 1);
+        BowlingFrame lastFrame = frames.get(frames.size() - 1);
+        BowlingFrame currentFrame = lastFrame;
         boolean isBonusFrame = Arrays.asList(BONUS_FRAME_INDEXES).contains(frames.size() - 1);
         int turnsAllowed = isBonusFrame ? TURN_PER_BONUS_FRAME : TURN_PER_FRAME;
-        boolean turnAvailable = currentFrame.turns.size() < turnsAllowed;
+        boolean turnAvailable = lastFrame.turns.size() < turnsAllowed;
         boolean frameAvailable = frames.size() < MAX_FRAMES;
+        if(frameAvailable && !(lastFrame.turns.size() < turnsAllowed)) {
+            currentFrame = new BowlingFrame();
+            frames.add(currentFrame);
+            turnAvailable = true;
+        }
         if ((currentFrame.isStrike() || currentFrame.isSpare()) && frameAvailable) {
             BowlingFrame newFrame = new BowlingFrame();
             newFrame.addTurn(pins);
