@@ -17,4 +17,23 @@ public class FileTabGameInputValidatorTest {
         Assert.assertTrue(fileValidator.validate("PlayerName    0"));
     }
 
+    @Test
+    public void validateLineInvalid() {
+        Assert.assertFalse(fileValidator.validate(""));
+    }
+
+    @Test
+    public void validateLineLetter() {
+        Assert.assertFalse(fileValidator.validate("PlayerName   asd"));
+    }
+
+    @Test
+    public void validateLineRangeNegative() {
+        Assert.assertFalse(fileValidator.validate("PlayerName   -1"));
+    }
+
+    @Test
+    public void validateLineRangeMoreThanTen() {
+        Assert.assertFalse(fileValidator.validate("PlayerName   11"));
+    }
 }
