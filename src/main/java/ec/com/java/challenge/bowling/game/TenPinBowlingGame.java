@@ -77,7 +77,7 @@ public class TenPinBowlingGame implements IBowlingGame{
                 score = frame.turns.stream().mapToInt(t -> t.getPins()).sum();
             }
             if(nextSteps > 0) {
-                score += frameRecursion(index, nextSteps);
+                score += frameRecursion(index + 1, nextSteps - 1);
             }
         }
         return score;
