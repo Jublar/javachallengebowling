@@ -9,7 +9,7 @@ public class TenPinBowlingGame implements IBowlingGame{
     private static int MAX_FRAMES = 10;
     private static int TURN_PER_FRAME = 2;
     private static int TURN_PER_BONUS_FRAME = 3;
-    private static int BONUS_FRAME_INDEXES = 90;
+    private static int BONUS_FRAME_INDEXES = 9;
     private List<BowlingFrame> frames;
     private String playerName;
 
