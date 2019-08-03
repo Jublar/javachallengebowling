@@ -10,7 +10,7 @@ public class FileTabGameInputValidator implements IGameInputValidator {
                 if(lineSplit[1].toUpperCase().equals("F"))
                     return true;
                 else {
-                    int pins = 0;
+                    int pins;
                     try {
                         pins = Integer.parseInt(lineSplit[1]);
                         if (pins >=0 && pins <=10)
