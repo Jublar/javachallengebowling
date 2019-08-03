@@ -25,5 +25,6 @@ public class TenPinBowlingGameTest {
         game.roll(10);
         game.roll(5);
         Assert.assertEquals(game.frameScore(1), 15);
+        Assert.assertEquals(game.frameScore(2), 5);
     }
 }
