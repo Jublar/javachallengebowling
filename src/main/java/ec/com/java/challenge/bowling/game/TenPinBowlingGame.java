@@ -87,6 +87,9 @@ public class TenPinBowlingGame implements IBowlingGame{
             if(nextShots > 0) {
                 score += shotRecursion(frameIndex, shotIndex, nextShots);
             }
+        } else if((frameIndex - 1) == BONUS_FRAME_INDEXES) {
+            BowlingFrame frame = frames.get(frameIndex - 1);
+            score += frame.turns.size() > 2 ? frame.turns.get(2).getPins() : 0;
         }
         return score;
     }
