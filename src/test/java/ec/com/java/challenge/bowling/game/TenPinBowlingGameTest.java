@@ -18,4 +18,12 @@ public class TenPinBowlingGameTest {
         game.roll(5);
         Assert.assertEquals(game.frameScore(1), 5);
     }
+
+    @Test
+    public void addStrikeAndSingle() {
+        initGame();
+        game.roll(10);
+        game.roll(5);
+        Assert.assertEquals(game.frameScore(1), 15);
+    }
 }
