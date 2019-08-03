@@ -9,7 +9,7 @@ public class TenPinBowlingGame implements IBowlingGame{
     private static int MAX_FRAMES = 10;
     private static int TURN_PER_FRAME = 2;
     private static int TURN_PER_BONUS_FRAME = 3;
-    private static int[] BONUS_FRAME_INDEXES = {9};
+    private static int BONUS_FRAME_INDEXES = 90;
     private List<BowlingFrame> frames;
     private String playerName;
 
@@ -22,8 +22,8 @@ public class TenPinBowlingGame implements IBowlingGame{
     public void roll(int pins) {
         BowlingFrame lastFrame = frames.get(frames.size() - 1);
         BowlingFrame currentFrame = lastFrame;
-        boolean isBonusFrame = IntStream.of(BONUS_FRAME_INDEXES).anyMatch(i-> i== (frames.size() - 1));
-        int turnsAllowed = isBonusFrame ? TURN_PER_BONUS_FRAME : TURN_PER_FRAME;
+        boolean isBonusFrame = BONUS_FRAME_INDEXES == (frames.size() - 1);
+        int turnsAllowed = (isBonusFrame && (currentFrame.isStrike() || currentFrame.isSpare())) ? TURN_PER_BONUS_FRAME : TURN_PER_FRAME;
         boolean turnAvailable = lastFrame.turns.size() < turnsAllowed;
         boolean frameAvailable = frames.size() < MAX_FRAMES;
         if(frameAvailable && !(lastFrame.turns.size() < turnsAllowed)) {
