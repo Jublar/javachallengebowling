@@ -19,6 +19,7 @@ public class TenPinBowlingGame implements IBowlingGame{
         this.playerName = playerName;
     }
 
+    @Override
     public void roll(int pins) {
         BowlingFrame lastFrame = frames.get(frames.size() - 1);
         BowlingFrame currentFrame = lastFrame;
@@ -41,10 +42,12 @@ public class TenPinBowlingGame implements IBowlingGame{
             System.err.println(String.format("Player %s has no more turn available.", this.playerName));
     }
 
+    @Override
     public int score() {
         return 0;
     }
 
+    @Override
     public String playerName() {
         return playerName;
     }
