@@ -24,17 +24,18 @@ public class FileGameInputReader implements IGameInputReader {
     @Override
     public List<String> read() {
         List<String> fileLines = null;
+        List<String> validLines = new ArrayList<>();
         if(fileName != null) {
             File file = new File(fileName);
             if(file.exists()) {
                 try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
                     fileLines = stream.collect(Collectors.toList());
-                    fileLines.stream().filter(l -> inputValidator.validate(l));
+                    fileLines.stream().filter(l -> inputValidator.validate(l)).forEach(validLines::add);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-        return fileLines;
+        return validLines;
     }
 }
