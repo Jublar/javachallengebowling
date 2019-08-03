@@ -45,39 +45,40 @@ public class TenPinBowlingGame implements IBowlingGame{
     @Override
     public int frameScore(int frameNumber) {
         int score = 0;
-        int nextSteps = 0;
+        int nextShots = 0;
         if(frameNumber > 0 && frameNumber <= frames.size()) {
             BowlingFrame frame = frames.get(frameNumber - 1);
             if(frame.isStrike()) {
                 score += 10;
-                nextSteps = 2;
+                nextShots = 2;
             } else if(frame.isSpare()) {
                 score += 10;
-                nextSteps = 1;
+                nextShots = 1;
             } else {
                 score = frame.turns.stream().mapToInt(t -> t.getPins()).sum();
             }
-            if(nextSteps > 0) {
-                score += frameRecursion(frameNumber, nextSteps);
+            if(nextShots > 0) {
+                score += shotRecursion(frameNumber, 0, nextShots);
             }
         }
         return score;
     }
 
-    private int frameRecursion(int index, int nextSteps) {
+    private int shotRecursion(int frameIndex, int shotIndex, int nextShots) {
         int score = 0;
-        if(index >= 0 && index < frames.size()) {
-            BowlingFrame frame = frames.get(index);
+        if(frameIndex >= 0 && frameIndex < frames.size()) {
+            BowlingFrame frame = frames.get(frameIndex);
             if(frame.isStrike()) {
                 score += 10;
-                nextSteps = 1;
-            } else if(frame.isSpare()) {
-                score += 10;
+                frameIndex++;
+                shotIndex = 0;
             } else {
-                score = frame.turns.stream().mapToInt(t -> t.getPins()).sum();
+                score += frame.turns.size() > shotIndex ? frame.turns.get(shotIndex).getPins() : 0;
+                shotIndex++;
             }
-            if(nextSteps > 0) {
-                score += frameRecursion(index + 1, nextSteps - 1);
+            nextShots--;
+            if(nextShots > 0) {
+                score += shotRecursion(frameIndex, shotIndex, nextShots);
             }
         }
         return score;
