@@ -40,4 +40,47 @@ public class TenPinBowlingGameTest {
         Assert.assertEquals(game.frameScore(2), 17);
         Assert.assertEquals(game.frameScore(3), 9);
     }
+
+    @Test
+    public void addCompleteGame() {
+        initGame();
+        //frame 1
+        game.roll(10);
+        //frame 2
+        game.roll(7);
+        game.roll(3);
+        //frame 3
+        game.roll(7);
+        game.roll(2);
+        //frame 4
+        game.roll(9);
+        game.roll(1);
+        //frame 5
+        game.roll(10);
+        //frame 6
+        game.roll(10);
+        //frame 7
+        game.roll(10);
+        //frame 8
+        game.roll(2);
+        game.roll(3);
+        //frame 9
+        game.roll(6);
+        game.roll(4);
+        //frame 10
+        game.roll(7);
+        game.roll(3);
+
+        Assert.assertEquals(game.frameScore(1), 20);
+        Assert.assertEquals(game.frameScore(2), 17);
+        Assert.assertEquals(game.frameScore(3), 9);
+        Assert.assertEquals(game.frameScore(4), 20);
+        Assert.assertEquals(game.frameScore(5), 30);
+        Assert.assertEquals(game.frameScore(6), 22);
+        Assert.assertEquals(game.frameScore(7), 15);
+        Assert.assertEquals(game.frameScore(8), 5);
+        Assert.assertEquals(game.frameScore(9), 17);
+        //Assert.assertEquals(game.frameScore(10), 13);
+
+    }
 }
