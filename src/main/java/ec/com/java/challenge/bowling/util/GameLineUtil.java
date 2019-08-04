@@ -7,7 +7,7 @@ public class GameLineUtil {
     }
 
     public static boolean isFoul(String line) {
-        return "F".equals(lineSplitIndex(line, 1));
+        return Constants.MSG_FOUL_PINFALL.equals(lineSplitIndex(line, 1));
     }
 
     public static int pins(String line) {
@@ -25,7 +25,7 @@ public class GameLineUtil {
         if (lineSplit.length > index) {
             return lineSplit[index];
         }
-        return null;
+        return "";
     }
 
     private static String[] splitLine(String line) {
