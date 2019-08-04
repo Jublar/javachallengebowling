@@ -56,8 +56,11 @@ public class TenPinBowlingGame implements IBowlingGame{
     public int frameScore(int frameNumber) {
         int score = 0;
         int nextShots = 0;
-        if(frameNumber > 0 && frameNumber <= frames.size()) {
-            BowlingFrame frame = frames.get(frameNumber - 1);
+        int frameIndex = frameNumber - 1;
+        int nextFrameIndex = frameIndex == (MAX_FRAMES - 1)  ? frameIndex : frameIndex + 1;
+        int nextShotIndex = frameIndex == (MAX_FRAMES - 1)  ? 1 : 0;
+        if(frameIndex >= 0 && frameIndex < frames.size()) {
+            BowlingFrame frame = frames.get(frameIndex);
             if(frame.isStrike()) {
                 score += 10;
                 nextShots = 2;
@@ -68,7 +71,7 @@ public class TenPinBowlingGame implements IBowlingGame{
                 score = frame.turns.stream().mapToInt(t -> t.getPins()).sum();
             }
             if(nextShots > 0) {
-                score += shotRecursion(frameNumber, 0, nextShots);
+                score += shotRecursion(nextFrameIndex, nextShotIndex, nextShots);
             }
         }
         return score;
@@ -84,26 +87,15 @@ public class TenPinBowlingGame implements IBowlingGame{
         int score = 0;
         if(frameIndex >= 0 && frameIndex < frames.size()) {
             BowlingFrame frame = frames.get(frameIndex);
-            if(frame.isStrike()) {
-                score += 10;
-                frameIndex++;
-                shotIndex = 0;
-            } else {
-                score += frame.turns.size() > shotIndex ? frame.turns.get(shotIndex).getPins() : 0;
-                shotIndex++;
-            }
-            nextShots--;
-            if(nextShots > 0) {
-                score += shotRecursion(frameIndex, shotIndex, nextShots);
-            }
-        } else if((frameIndex - 1) == BONUS_FRAME_INDEXES) {
-            BowlingFrame frame = frames.get(frameIndex - 1);
-            score += frame.turns.size() > 2 ?
-                    (frame.isSpare() ?
-                            frame.turns.get(2).getPins() :
-                            frame.turns.get(1).getPins() + frame.turns.get(2).getPins()) :
-                    0;
+            score += frame.turns.size() > shotIndex ? frame.turns.get(shotIndex).getPins() : 0;
+            frameIndex = frame.turns.size() >= nextShots ? frameIndex : frameIndex + 1;
+            shotIndex = frame.turns.size() >= nextShots ? shotIndex + 1 : 0;
+        }
+        nextShots--;
+        if(nextShots > 0) {
+            score += shotRecursion(frameIndex, shotIndex, nextShots);
         }
         return score;
     }
+
 }
