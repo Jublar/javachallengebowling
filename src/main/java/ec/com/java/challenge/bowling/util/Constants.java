@@ -9,4 +9,8 @@ public final class Constants {
     public static final int MAX_PINS_BONUS_FRAME = 30;
     public static final String MSG_PAYER_NO_MORE_TURN = "Player %s has no more turns available.";
     public static final String MSG_MAXIMUM_PINS_ALLOWED = "Total of pins is more than maximum pins allowed to roll out in this frame. %d + %d > %d.";
+    public static final String MSG_PINFALLS = "Pinfalls";
+    public static final String MSG_SCORE = "Score";
+    public static final String MSG_FRAME = "Score";
+
 }
