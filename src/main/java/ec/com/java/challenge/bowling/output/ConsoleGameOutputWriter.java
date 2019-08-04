@@ -8,6 +8,6 @@ public class ConsoleGameOutputWriter implements IGameOutputWriter {
 
     @Override
     public void write(List<IBowlingGame> games) {
-
+        
     }
 }

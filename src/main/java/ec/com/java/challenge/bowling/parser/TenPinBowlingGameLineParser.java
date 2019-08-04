@@ -28,7 +28,7 @@ public class TenPinBowlingGameLineParser implements IBowlingGameParser{
                 String playerName = GameLineUtil.playerName(l);
                 int pins = GameLineUtil.pins(l);
                 IBowlingGame game = games.stream().filter(g-> Objects.equals(playerName, g.playerName())).findAny().orElse(createNewGame(playerName));
-                game.roll(pins);
+                game.roll(pins, GameLineUtil.isFoul(l));
                 if(!games.contains(game))
                     games.add(game);
             });

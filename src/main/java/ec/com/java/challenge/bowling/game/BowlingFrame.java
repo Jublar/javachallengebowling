@@ -15,7 +15,7 @@ public class BowlingFrame {
         return turns != null && turns.size() > 1 && (turns.get(0).getPins() + turns.get(1).getPins()) == 10;
     }
 
-    public void addTurn(int pins) {
+    public void addTurn(int pins, boolean isFoul) {
         BowlingTurn newTurn = new BowlingTurn();
         newTurn.setPins(pins);
         turns.add(newTurn);

@@ -22,6 +22,11 @@ public class TenPinBowlingGame implements IBowlingGame{
 
     @Override
     public void roll(int pins) {
+        roll(pins, false);
+    }
+
+    @Override
+    public void roll(int pins, boolean isFoul) {
         BowlingFrame lastFrame = frames.get(frames.size() - 1);
         BowlingFrame currentFrame = lastFrame;
         boolean isBonusFrame = BONUS_FRAME_INDEXES == (frames.size() - 1);
@@ -37,10 +42,10 @@ public class TenPinBowlingGame implements IBowlingGame{
         }
         if ((currentFrame.isStrike() || currentFrame.isSpare()) && frameAvailable) {
             BowlingFrame newFrame = new BowlingFrame();
-            newFrame.addTurn(pins);
+            newFrame.addTurn(pins, isFoul);
             frames.add(newFrame);
         } else if (turnAvailable) {
-            currentFrame.addTurn(pins);
+            currentFrame.addTurn(pins, isFoul);
         } else {
             String msg = !pinsMoreThanMax ? String.format("Player %s has no more turns available.", this.playerName) :
                     String.format("Total of pins is more than maximum pins allowed to roll out in this frame. %d + %d > %d.",

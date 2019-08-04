@@ -10,11 +10,20 @@ public class GameLineUtil {
         return null;
     }
 
-    public static int pins(String line) {
+    public static boolean isFoul(String line) {
         String[] lineSplit = splitLine(line);
         if (lineSplit.length == 2) {
             if (lineSplit[1].toUpperCase().equals("F"))
-                return 0;
+                return true;
+        }
+        return false;
+    }
+
+    public static int pins(String line) {
+        String[] lineSplit = splitLine(line);
+        if(isFoul(line))
+            return 0;
+        if (lineSplit.length == 2) {
             try {
                 return Integer.parseInt(lineSplit[1]);
             } catch (NumberFormatException ex) {
