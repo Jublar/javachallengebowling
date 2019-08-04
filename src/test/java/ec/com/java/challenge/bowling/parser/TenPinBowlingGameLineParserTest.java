@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TenPinBowlingGameLineParserTest {
@@ -17,7 +18,8 @@ public class TenPinBowlingGameLineParserTest {
     private static IGameInputReader fileReader;
 
     @BeforeClass
-    public static void init() {
+    public static void init() throws IOException {
+        FileMockUtil.createMockFile();
         IGameInputValidator inputValidator = new FileTabGameInputValidator();
         fileReader = new FileGameInputReader(FileMockUtil.FILE_PATH, inputValidator);
     }
