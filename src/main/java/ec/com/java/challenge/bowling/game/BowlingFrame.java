@@ -17,6 +17,7 @@ public class BowlingFrame {
 
     public void addTurn(int pins, boolean isFoul) {
         BowlingTurn newTurn = new BowlingTurn();
+        newTurn.setFoul(isFoul);
         newTurn.setPins(pins);
         turns.add(newTurn);
     }
