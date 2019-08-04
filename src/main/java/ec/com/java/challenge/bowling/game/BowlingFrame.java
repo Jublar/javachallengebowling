@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BowlingFrame {
 
-    List<BowlingTurn> turns = new ArrayList<>();
+    private final List<BowlingTurn> turns = new ArrayList<>();
 
     public boolean isStrike() {
         return turns != null && turns.size() > 0 && turns.get(0).getPins() == 10;
@@ -19,5 +19,9 @@ public class BowlingFrame {
         BowlingTurn newTurn = new BowlingTurn();
         newTurn.setPins(pins);
         turns.add(newTurn);
+    }
+
+    public List<BowlingTurn> getTurns() {
+        return turns;
     }
 }
