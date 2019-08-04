@@ -1,5 +1,5 @@
 package ec.com.java.challenge.bowling.controller;
 
-public interface IBowlingGameControler {
+public interface IBowlingGameController {
     void run();
 }

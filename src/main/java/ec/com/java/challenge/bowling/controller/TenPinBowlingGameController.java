@@ -16,20 +16,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public class TenPinBowlingGameControler implements IBowlingGameControler {
+public class TenPinBowlingGameController implements IBowlingGameController {
 
     private IGameInputReader inputReader;
-    private IBowlingGameParser gameParser;
     private IGameOutputWriter outputWriter;
-    private GameInputType gameInputType;
-    private GameOutputType gameOutputType;
+    private final GameInputType gameInputType;
+    private final GameOutputType gameOutputType;
 
-    public TenPinBowlingGameControler(GameInputType gameInputType, GameOutputType gameOutputType) {
+    public TenPinBowlingGameController(GameInputType gameInputType, GameOutputType gameOutputType) {
         this.gameInputType = gameInputType;
         this.gameOutputType = gameOutputType;
     }
 
+    @Override
     public void run() {
+        IBowlingGameParser gameParser;
         buildInputReader();
         buildOutputWriter();
         List<String> lines = inputReader.read();
@@ -39,32 +40,24 @@ public class TenPinBowlingGameControler implements IBowlingGameControler {
     }
 
     private void buildInputReader() {
-        switch (gameInputType) {
-            case FILE:
-                System.out.print("Please enter file path to load game input: ");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                String fileName = "";
-                try {
-                    fileName = reader.readLine();
-                    inputReader = new FileGameInputReader(fileName, new FileTabGameInputValidator());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                System.out.println(String.format("Type of input %s not implemented yet", gameInputType));
-                break;
+        if (gameInputType == GameInputType.FILE) {
+            System.out.print("Please enter file path to load game input: ");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                inputReader = new FileGameInputReader(reader.readLine(), new FileTabGameInputValidator());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println(String.format("Type of input %s not implemented yet", gameInputType));
         }
     }
 
     private void buildOutputWriter() {
-        switch (gameOutputType) {
-            case CONSOLE:
-                outputWriter = new ConsoleGameOutputWriter();
-                break;
-            default:
-                System.out.println(String.format("Type of output %s not implemented yet", gameOutputType));
-                break;
+        if (gameOutputType == GameOutputType.CONSOLE) {
+            outputWriter = new ConsoleGameOutputWriter();
+        } else {
+            System.out.println(String.format("Type of output %s not implemented yet", gameOutputType));
         }
     }
 }
