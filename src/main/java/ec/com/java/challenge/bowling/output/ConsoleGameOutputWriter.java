@@ -16,7 +16,7 @@ public class ConsoleGameOutputWriter implements IGameOutputWriter {
     @Override
     public void write(List<IBowlingGame> games) {
         System.out.println(headerLine());
-        games.forEach(g->gameLine(g).stream().forEach(l -> System.out.println(l)));
+        games.forEach(g -> gameLine(g).stream().forEach(l -> System.out.println(l)));
     }
 
     private static String headerLine() {
@@ -46,26 +46,47 @@ public class ConsoleGameOutputWriter implements IGameOutputWriter {
 
     private static String framePinFall(IBowlingGame game, int frameIndex) {
         BowlingFrame frame = game.getFrame(frameIndex);
-        if(frame != null) {
-            if(frame.isStrike())
-                return String.format("%s%s%s", SEPARATOR, SEPARATOR, Constants.MSG_STRIKE_PINFALL);
-            else if(frame.isSpare()) {
-                String turn1 = turnValue(frame, 0);
-                return String.format("%s%s%s%s", SEPARATOR, turn1, SEPARATOR, Constants.MSG_SPARE_PINFALL);
-            }
-            else {
-                String turn1 = turnValue(frame, 0);
-                String turn2 = turnValue(frame, 1);
-                return String.format("%s%s%s%s", SEPARATOR,turn1, SEPARATOR, turn2);
-            }
+        if (frame != null) {
+            if (frameIndex < Constants.BONUS_FRAME_INDEXES)
+                return normalFramePinFall(frame);
+            else if (frameIndex == Constants.BONUS_FRAME_INDEXES)
+                return bonusFramePinFall(frame);
         }
         return "";
     }
 
+    private static String normalFramePinFall(BowlingFrame frame) {
+        if (frame.isStrike())
+            return String.format("%s%s%s", SEPARATOR, SEPARATOR, Constants.MSG_STRIKE_PINFALL);
+        else if (frame.isSpare()) {
+            String turn1 = turnValue(frame, 0);
+            return String.format("%s%s%s%s", SEPARATOR, turn1, SEPARATOR, Constants.MSG_SPARE_PINFALL);
+        } else {
+            String turn1 = turnValue(frame, 0);
+            String turn2 = turnValue(frame, 1);
+            return String.format("%s%s%s%s", SEPARATOR, turn1, SEPARATOR, turn2);
+        }
+    }
+
+    private static String bonusFramePinFall(BowlingFrame frame) {
+        String turn1 = "", turn2 = "", turn3 = "";
+        if (frame.getTurns().size() > 2)
+            turn1 = Constants.MSG_STRIKE_PINFALL;
+        else
+            turn1 = turnValue(frame, 0);
+        turn2 = frame.isSpare() ? Constants.MSG_SPARE_PINFALL : turnValue(frame, 1);
+        turn3 = turnValue(frame, 2);
+        return String.format("%s%s%s%s%s%s", SEPARATOR, turn1, SEPARATOR, turn2, SEPARATOR, turn3);
+    }
+
     private static String turnValue(BowlingFrame frame, int turnIndex) {
-        if(frame.getTurns() != null && frame.getTurns().size() > turnIndex) {
+        if (frame.getTurns() != null && frame.getTurns().size() > turnIndex) {
             BowlingTurn turn = frame.getTurns().get(turnIndex);
-            return turn.isFoul() ? Constants.MSG_FOUL_PINFALL : String.valueOf(turn.getPins());
+            if (turn.isFoul())
+                return Constants.MSG_FOUL_PINFALL;
+            else if (turn.getPins() == 10)
+                return Constants.MSG_STRIKE_PINFALL;
+            return String.valueOf(turn.getPins());
         }
         return "";
     }
