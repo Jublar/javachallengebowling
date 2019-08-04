@@ -28,7 +28,8 @@ public class TenPinBowlingGame implements IBowlingGame{
         boolean isBonusFrame = BONUS_FRAME_INDEXES == (frames.size() - 1);
         int turnsAllowed = (isBonusFrame && (currentFrame.isStrike() || currentFrame.isSpare())) ? TURN_PER_BONUS_FRAME : TURN_PER_FRAME;
         int pinsAllowed = !isBonusFrame ? MAX_PINS_NORMAL_FRAME : MAX_PINS_BONUS_FRAME;
-        boolean turnAvailable = lastFrame.turns.size() < turnsAllowed && pinsAllowed >= (currentFrame.turns.stream().mapToInt(t -> t.getPins()).sum() + pins);
+        boolean pinsMoreThanMax = pinsAllowed < (currentFrame.turns.stream().mapToInt(t -> t.getPins()).sum() + pins);
+        boolean turnAvailable = lastFrame.turns.size() < turnsAllowed && !pinsMoreThanMax;
         boolean frameAvailable = frames.size() < MAX_FRAMES;
         if(frameAvailable && !(lastFrame.turns.size() < turnsAllowed)) {
             currentFrame = new BowlingFrame();
@@ -41,8 +42,12 @@ public class TenPinBowlingGame implements IBowlingGame{
             frames.add(newFrame);
         } else if (turnAvailable) {
             currentFrame.addTurn(pins);
-        } else
-            System.err.println(String.format("Player %s has no more turn available.", this.playerName));
+        } else {
+            String msg = !pinsMoreThanMax ? String.format("Player %s has no more turns available.", this.playerName) :
+                    String.format("Total of pins is more than maximun pins allowed to roll out in this frame. %d + %d > %d.",
+                            currentFrame.turns.stream().mapToInt(t -> t.getPins()).sum(), pins, pinsAllowed);
+            System.err.println(msg);
+        }
     }
 
     @Override
