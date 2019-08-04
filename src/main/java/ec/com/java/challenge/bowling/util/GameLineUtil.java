@@ -3,34 +3,29 @@ package ec.com.java.challenge.bowling.util;
 public class GameLineUtil {
 
     public static String playerName(String line) {
-        String[] lineSplit = splitLine(line);
-        if (lineSplit.length == 2) {
-            return lineSplit[0];
-        }
-        return null;
+        return lineSplitIndex(line, 0);
     }
 
     public static boolean isFoul(String line) {
-        String[] lineSplit = splitLine(line);
-        if (lineSplit.length == 2) {
-            if (lineSplit[1].toUpperCase().equals("F"))
-                return true;
-        }
-        return false;
+        return "F".equals(lineSplitIndex(line, 1));
     }
 
     public static int pins(String line) {
-        String[] lineSplit = splitLine(line);
         if(isFoul(line))
             return 0;
-        if (lineSplit.length == 2) {
-            try {
-                return Integer.parseInt(lineSplit[1]);
-            } catch (NumberFormatException ex) {
-                return -1;
-            }
+        try {
+            return Integer.parseInt(lineSplitIndex(line, 1));
+        } catch (NumberFormatException ex) {
+            return -1;
         }
-        return -1;
+    }
+
+    private static String lineSplitIndex(String line, int index) {
+        String[] lineSplit = splitLine(line);
+        if (lineSplit.length > index) {
+            return lineSplit[index];
+        }
+        return null;
     }
 
     private static String[] splitLine(String line) {
