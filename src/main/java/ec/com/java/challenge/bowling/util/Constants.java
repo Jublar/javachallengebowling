@@ -11,6 +11,9 @@ public final class Constants {
     public static final String MSG_MAXIMUM_PINS_ALLOWED = "Total of pins is more than maximum pins allowed to roll out in this frame. %d + %d > %d.";
     public static final String MSG_PINFALLS = "Pinfalls";
     public static final String MSG_SCORE = "Score";
-    public static final String MSG_FRAME = "Score";
+    public static final String MSG_FRAME = "Frame";
+    public static final String MSG_STRIKE_PINFALL = "X";
+    public static final String MSG_SPARE_PINFALL = "/";
+    public static final String MSG_FOUL_PINFALL = "F";
 
 }
