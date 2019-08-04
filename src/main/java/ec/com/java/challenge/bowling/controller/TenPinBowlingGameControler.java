@@ -41,13 +41,12 @@ public class TenPinBowlingGameControler implements IBowlingGameControler {
     private void buildInputReader() {
         switch (gameInputType) {
             case FILE:
-                System.out.print("Please enter file path to load input: ");
+                System.out.print("Please enter file path to load game input: ");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String fileName = "";
                 try {
                     fileName = reader.readLine();
                     inputReader = new FileGameInputReader(fileName, new FileTabGameInputValidator());
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
