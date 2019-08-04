@@ -1,5 +1,6 @@
 package ec.com.java.challenge.bowling.input;
 
+import ec.com.java.challenge.bowling.exception.InputValidationException;
 import ec.com.java.challenge.bowling.input.validator.IGameInputValidator;
 
 import java.io.IOException;
@@ -29,8 +30,7 @@ public class FileGameInputReader implements IGameInputReader {
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
             return stream.filter(inputValidator::validate).collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new InputValidationException("Error while reading game input", e);
         }
-        return Collections.emptyList();
     }
 }
