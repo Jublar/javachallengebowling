@@ -1,16 +1,13 @@
 package ec.com.java.challenge.bowling.game;
 
+import ec.com.java.challenge.bowling.util.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class TenPinBowlingGame implements IBowlingGame{
-    private static final int MAX_FRAMES = 10;
-    private static final int TURN_PER_FRAME = 2;
-    private static final int TURN_PER_BONUS_FRAME = 3;
-    private static final int BONUS_FRAME_INDEXES = 9;
-    private static final int MAX_PINS_NORMAL_FRAME = 10;
-    private static final int MAX_PINS_BONUS_FRAME = 30;
+
     private final List<BowlingFrame> frames;
     private final String playerName;
 
@@ -29,12 +26,12 @@ public class TenPinBowlingGame implements IBowlingGame{
     public void roll(int pins, boolean isFoul) {
         BowlingFrame lastFrame = frames.get(frames.size() - 1);
         BowlingFrame currentFrame = lastFrame;
-        boolean isBonusFrame = BONUS_FRAME_INDEXES == (frames.size() - 1);
-        int turnsAllowed = (isBonusFrame && (currentFrame.isStrike() || currentFrame.isSpare())) ? TURN_PER_BONUS_FRAME : TURN_PER_FRAME;
-        int pinsAllowed = !isBonusFrame ? MAX_PINS_NORMAL_FRAME : MAX_PINS_BONUS_FRAME;
+        boolean isBonusFrame = Constants.BONUS_FRAME_INDEXES == (frames.size() - 1);
+        int turnsAllowed = (isBonusFrame && (currentFrame.isStrike() || currentFrame.isSpare())) ? Constants.TURN_PER_BONUS_FRAME : Constants.TURN_PER_FRAME;
+        int pinsAllowed = !isBonusFrame ? Constants.MAX_PINS_NORMAL_FRAME : Constants.MAX_PINS_BONUS_FRAME;
         boolean pinsMoreThanMax = pinsAllowed < (currentFrame.getTurns().stream().mapToInt(BowlingTurn::getPins).sum() + pins);
         boolean turnAvailable = lastFrame.getTurns().size() < turnsAllowed && !pinsMoreThanMax;
-        boolean frameAvailable = frames.size() < MAX_FRAMES;
+        boolean frameAvailable = frames.size() < Constants.MAX_FRAMES;
         if(frameAvailable && !(lastFrame.getTurns().size() < turnsAllowed)) {
             currentFrame = new BowlingFrame();
             frames.add(currentFrame);
@@ -47,8 +44,8 @@ public class TenPinBowlingGame implements IBowlingGame{
         } else if (turnAvailable) {
             currentFrame.addTurn(pins, isFoul);
         } else {
-            String msg = !pinsMoreThanMax ? String.format("Player %s has no more turns available.", this.playerName) :
-                    String.format("Total of pins is more than maximum pins allowed to roll out in this frame. %d + %d > %d.",
+            String msg = !pinsMoreThanMax ? String.format(Constants.MSG_PAYER_NO_MORE_TURN, this.playerName) :
+                    String.format(Constants.MSG_MAXIMUM_PINS_ALLOWED,
                             currentFrame.getTurns().stream().mapToInt(BowlingTurn::getPins).sum(), pins, pinsAllowed);
             System.err.println(msg);
         }
@@ -69,8 +66,8 @@ public class TenPinBowlingGame implements IBowlingGame{
         int score = 0;
         int nextShots = 0;
         int frameIndex = frameNumber - 1;
-        int nextFrameIndex = frameIndex == (MAX_FRAMES - 1)  ? frameIndex : frameIndex + 1;
-        int nextShotIndex = frameIndex == (MAX_FRAMES - 1)  ? 1 : 0;
+        int nextFrameIndex = frameIndex == (Constants.MAX_FRAMES - 1)  ? frameIndex : frameIndex + 1;
+        int nextShotIndex = frameIndex == (Constants.MAX_FRAMES - 1)  ? 1 : 0;
         if(frameIndex >= 0 && frameIndex < frames.size()) {
             BowlingFrame frame = frames.get(frameIndex);
             if(frame.isStrike()) {
