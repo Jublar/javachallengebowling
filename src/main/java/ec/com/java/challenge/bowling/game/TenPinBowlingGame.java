@@ -12,10 +12,7 @@ import java.util.stream.IntStream;
  * @author Jublar Garcia Ramos
  * @version 1.0
  */
-public class TenPinBowlingGame implements IBowlingGame{
-
-    private final List<BowlingFrame> frames;
-    private final String playerName;
+public class TenPinBowlingGame extends AbstractBowlingGame {
 
     /**
      * <p>Constructor for TenPinBowlingGame.</p>
@@ -23,9 +20,7 @@ public class TenPinBowlingGame implements IBowlingGame{
      * @param playerName a {@link java.lang.String} object.
      */
     public TenPinBowlingGame(String playerName) {
-        frames = new ArrayList<>();
-        frames.add(new BowlingFrame());
-        this.playerName = playerName;
+        super(playerName);
     }
 
     /** {@inheritDoc} */
