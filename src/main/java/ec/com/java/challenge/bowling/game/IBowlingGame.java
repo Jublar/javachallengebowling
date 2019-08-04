@@ -7,4 +7,5 @@ public interface IBowlingGame {
     String playerName();
     int frameScore(int frame);
     int frameScoreSum(int frame);
+    BowlingFrame getFrame(int index);
 }
