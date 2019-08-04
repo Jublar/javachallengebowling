@@ -34,6 +34,8 @@ public class FileGameInputReader implements IGameInputReader {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else {
+                System.err.println(String.format("File %s not found.", fileName));
             }
         }
         return validLines;
