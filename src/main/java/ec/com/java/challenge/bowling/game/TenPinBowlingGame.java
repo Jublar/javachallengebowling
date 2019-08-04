@@ -91,6 +91,11 @@ public class TenPinBowlingGame implements IBowlingGame{
         return IntStream.range(1, frameNum + 1).map(this::frameScore).sum();
     }
 
+    @Override
+    public BowlingFrame getFrame(int index) {
+        return frames != null && frames.size() > index ? frames.get(index): null;
+    }
+
     private int shotRecursion(int frameIndex, int shotIndex, int nextShots) {
         int score = 0;
         if(frameIndex >= 0 && frameIndex < frames.size()) {
