@@ -11,11 +11,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Class to read bowling game lines from file.
+ *
+ * @author Jublar Garcia Ramos
+ * @version 1.0
+ */
 public class FileGameInputReader implements IGameInputReader {
 
-    private String fileName;
-    private IGameInputValidator inputValidator;
+    private final String fileName;
+    private final IGameInputValidator inputValidator;
 
+    /**
+     * Constructor
+     *
+     * @param fileName File name to read input.
+     * @param inputValidator Instance of {@link ec.com.java.challenge.bowling.input.validator.IGameInputValidator} to validate input.
+     * @throws java.io.IOException Exception thrown when input file does not exists.
+     * @throws java.lang.IllegalArgumentException Exception thrown when fileName parameter is null or empty.
+     */
     public FileGameInputReader(String fileName, IGameInputValidator inputValidator) throws IOException {
         if (fileName == null || "".equals(fileName)) {
             throw new IllegalArgumentException("Argument fileName is required.");
@@ -27,6 +41,7 @@ public class FileGameInputReader implements IGameInputReader {
         this.inputValidator = inputValidator;
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<String> read() {
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {

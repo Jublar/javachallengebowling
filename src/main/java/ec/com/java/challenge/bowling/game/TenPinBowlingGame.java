@@ -6,22 +6,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * <p>TenPinBowlingGame class.</p>
+ *
+ * @author Jublar Garcia Ramos
+ * @version 1.0
+ */
 public class TenPinBowlingGame implements IBowlingGame{
 
     private final List<BowlingFrame> frames;
     private final String playerName;
 
+    /**
+     * <p>Constructor for TenPinBowlingGame.</p>
+     *
+     * @param playerName a {@link java.lang.String} object.
+     */
     public TenPinBowlingGame(String playerName) {
         frames = new ArrayList<>();
         frames.add(new BowlingFrame());
         this.playerName = playerName;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void roll(int pins) {
         roll(pins, false);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void roll(int pins, boolean isFoul) {
         BowlingFrame lastFrame = frames.get(frames.size() - 1);
@@ -51,16 +64,19 @@ public class TenPinBowlingGame implements IBowlingGame{
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public int score() {
         return 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String playerName() {
         return playerName;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int frameScore(int frameNumber) {
         int score = 0;
@@ -86,11 +102,13 @@ public class TenPinBowlingGame implements IBowlingGame{
         return score;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int frameScoreSum(int frameNum) {
         return IntStream.range(1, frameNum + 1).map(this::frameScore).sum();
     }
 
+    /** {@inheritDoc} */
     @Override
     public BowlingFrame getFrame(int index) {
         return frames != null && frames.size() > index ? frames.get(index): null;

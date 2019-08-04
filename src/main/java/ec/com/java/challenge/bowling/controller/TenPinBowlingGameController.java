@@ -16,6 +16,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+/**
+ * <p>TenPinBowlingGameController class.</p>
+ *
+ * @author Jublar Garcia Ramos
+ * @version 1.0
+ */
 public class TenPinBowlingGameController implements IBowlingGameController {
 
     private IGameInputReader inputReader;
@@ -23,11 +29,18 @@ public class TenPinBowlingGameController implements IBowlingGameController {
     private final GameInputType gameInputType;
     private final GameOutputType gameOutputType;
 
+    /**
+     * <p>Constructor for TenPinBowlingGameController.</p>
+     *
+     * @param gameInputType a {@link ec.com.java.challenge.bowling.util.GameInputType} object.
+     * @param gameOutputType a {@link ec.com.java.challenge.bowling.util.GameOutputType} object.
+     */
     public TenPinBowlingGameController(GameInputType gameInputType, GameOutputType gameOutputType) {
         this.gameInputType = gameInputType;
         this.gameOutputType = gameOutputType;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void run() {
         IBowlingGameParser gameParser;

@@ -9,10 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * <p>ConsoleGameOutputWriter class.</p>
+ *
+ * @author Jublar Garcia Ramos
+ * @version 1.0
+ */
 public class ConsoleGameOutputWriter implements IGameOutputWriter {
 
     private static final String SEPARATOR = "\t";
 
+    /** {@inheritDoc} */
     @Override
     public void write(List<IBowlingGame> games) {
         System.out.println(headerLine());
