@@ -7,7 +7,6 @@ import ec.com.java.challenge.bowling.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 public class ConsoleGameOutputWriter implements IGameOutputWriter {
@@ -17,7 +16,7 @@ public class ConsoleGameOutputWriter implements IGameOutputWriter {
     @Override
     public void write(List<IBowlingGame> games) {
         System.out.println(headerLine());
-        games.stream().forEach(g->gameLine(g).stream().forEach(l -> System.out.println(l)));
+        games.forEach(g->gameLine(g).stream().forEach(l -> System.out.println(l)));
     }
 
     private static String headerLine() {
@@ -39,7 +38,7 @@ public class ConsoleGameOutputWriter implements IGameOutputWriter {
         lines.add(line.toString());
         StringBuilder scoreLine = new StringBuilder();
         scoreLine.append(Constants.MSG_SCORE);
-        score.forEach(s -> scoreLine.append("\t").append("\t").append(String.valueOf(game.frameScore(s))));
+        score.forEach(s -> scoreLine.append("\t").append("\t").append(game.frameScoreSum(s + 1)));
         lines.add(scoreLine.toString());
 
         return lines;
@@ -63,9 +62,6 @@ public class ConsoleGameOutputWriter implements IGameOutputWriter {
         return "";
     }
 
-    private static String frameScore(IBowlingGame game, int frameIndex) {
-        return String.valueOf(game.frameScore(frameIndex));
-    }
     private static String turnValue(BowlingFrame frame, int turnIndex) {
         if(frame.getTurns() != null && frame.getTurns().size() > turnIndex) {
             BowlingTurn turn = frame.getTurns().get(turnIndex);
