@@ -3,6 +3,8 @@ package ec.com.java.challenge.bowling.game;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.stream.IntStream;
+
 public class TenPinBowlingGameTest {
 
     private static IBowlingGame game;
@@ -107,6 +109,13 @@ public class TenPinBowlingGameTest {
         initGame();
         rollHoleGame();
         Assert.assertEquals(game.frameScoreSum(10), 174);
+    }
+
+    @Test
+    public void addPerfectGame() {
+        initGame();
+        IntStream.range(1, 13).forEach(r -> game.roll(10));
+        Assert.assertEquals(game.frameScoreSum(10), 300);
     }
 
     private static void rollHoleGame() {
