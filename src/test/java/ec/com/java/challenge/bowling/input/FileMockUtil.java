@@ -43,20 +43,33 @@ public class FileMockUtil {
         }
     }
 
-    public static void writeLinesInFile(int valid, int notValid) {
+    public static void writeLinesInFile(int valid, int notValid, int maxRandom) {
         FileMockUtil.createMockFile();
         List<String> lines = new ArrayList<>();
         for (int i = 0; i < (valid + notValid); i++) {
-            lines.add(i < valid ? generateValidLine() : generateNotValidLine());
+            lines.add(i < valid ? generateValidLine(maxRandom) : generateNotValidLine());
         }
         FileMockUtil.writeToFile(lines);
     }
 
-    private static String generateValidLine() {
-        return String.format("player  %s", new Random().nextInt(11));
+    public static void writeFixedValueLinesInFile(int linesCant, int value) {
+        FileMockUtil.createMockFile();
+        List<String> lines = new ArrayList<>();
+        for (int i = 0; i < linesCant; i++) {
+            lines.add(generateFixedValueLine(value));
+        }
+        FileMockUtil.writeToFile(lines);
+    }
+
+    private static String generateValidLine(int maxRandom) {
+        return String.format("player  %s", new Random().nextInt(maxRandom));
     }
 
     private static String generateNotValidLine() {
         return "this is an invalid line in file";
+    }
+
+    private static String generateFixedValueLine(int n) {
+        return String.format("player  %s", n);
     }
 }

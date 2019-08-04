@@ -35,21 +35,21 @@ public class FileGameInputReaderTest {
     @Test
     public void tenLinesOk() {
         int linesCant = 10;
-        FileMockUtil.writeLinesInFile(linesCant, 0);
+        FileMockUtil.writeLinesInFile(linesCant, 0, 5);
         List<String> lines = fileReader.read();
         Assert.assertEquals(lines.size(), linesCant);
     }
 
     @Test
     public void tenLinesOkOneBadLine() {
-        FileMockUtil.writeLinesInFile(10, 1);
+        FileMockUtil.writeLinesInFile(10, 1, 5);
         List<String> lines = fileReader.read();
         Assert.assertEquals(lines.size(), 10);
     }
 
     @Test
     public void allBadLines() {
-        FileMockUtil.writeLinesInFile(0, 5);
+        FileMockUtil.writeLinesInFile(0, 5, 0);
         List<String> lines = fileReader.read();
         Assert.assertEquals(lines.size(), 0);
     }

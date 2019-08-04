@@ -1,5 +1,6 @@
 package ec.com.java.challenge.bowling.game;
 
+import ec.com.java.challenge.bowling.exception.RollValidationException;
 import ec.com.java.challenge.bowling.util.Constants;
 
 import java.util.ArrayList;
@@ -55,7 +56,8 @@ public class TenPinBowlingGame extends AbstractBowlingGame {
             String msg = !pinsMoreThanMax ? String.format(Constants.MSG_PAYER_NO_MORE_TURN, this.playerName) :
                     String.format(Constants.MSG_MAXIMUM_PINS_ALLOWED,
                             currentFrame.getTurns().stream().mapToInt(BowlingTurn::getPins).sum(), pins, pinsAllowed);
-            System.err.println(msg);
+            //System.err.println(msg);
+            throw new RollValidationException(msg);
         }
     }
 

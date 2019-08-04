@@ -1,5 +1,6 @@
 package ec.com.java.challenge.bowling.parser;
 
+import ec.com.java.challenge.bowling.exception.RollValidationException;
 import ec.com.java.challenge.bowling.game.IBowlingGame;
 import ec.com.java.challenge.bowling.input.FileGameInputReader;
 import ec.com.java.challenge.bowling.input.FileMockUtil;
@@ -30,7 +31,17 @@ public class TenPinBowlingGameLineParserTest {
 
     @Test
     public void testBasicGameCreation() {
-        FileMockUtil.writeLinesInFile(10, 0);
+        FileMockUtil.writeLinesInFile(10, 0, 5);
+        List<String> lines = fileReader.read();
+        initParser(lines);
+        FileMockUtil.deleteMockFile();
+        List<IBowlingGame> games = gameParser.createAll();
+        Assert.assertEquals(games.size(), 1);
+    }
+
+    @Test(expected = RollValidationException.class)
+    public void testBasicGameCreationException() {
+        FileMockUtil.writeFixedValueLinesInFile(10, 6);
         List<String> lines = fileReader.read();
         initParser(lines);
         FileMockUtil.deleteMockFile();
