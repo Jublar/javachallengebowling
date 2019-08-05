@@ -36,7 +36,7 @@ public class TenPinBowlingGame extends AbstractBowlingGame {
         BowlingFrame lastFrame = frames.get(frames.size() - 1);
         BowlingFrame currentFrame = lastFrame;
         boolean isBonusFrame = Constants.BONUS_FRAME_INDEXES == (frames.size() - 1);
-        int turnsAllowed = (isBonusFrame && (currentFrame.isStrike() || currentFrame.isSpare())) ? Constants.TURN_PER_BONUS_FRAME : Constants.TURN_PER_FRAME;
+        int turnsAllowed = (isBonusFrame) ? Constants.TURN_PER_BONUS_FRAME : Constants.TURN_PER_FRAME;
         int pinsAllowed = !isBonusFrame ? Constants.MAX_PINS_NORMAL_FRAME : Constants.MAX_PINS_BONUS_FRAME;
         boolean pinsMoreThanMax = pinsAllowed < (currentFrame.getTurns().stream().mapToInt(BowlingTurn::getPins).sum() + pins);
         boolean turnAvailable = lastFrame.getTurns().size() < turnsAllowed && !pinsMoreThanMax;
