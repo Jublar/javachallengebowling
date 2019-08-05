@@ -35,5 +35,7 @@ public final class Constants {
     public static final String MSG_SPARE_PINFALL = "/";
     /** Constant <code>MSG_FOUL_PINFALL="F"</code> */
     public static final String MSG_FOUL_PINFALL = "F";
+    /** Constant <code>EXTRA_INFO_FILE_KEY="F"</code> */
+    public static final String EXTRA_INFO_FILE_KEY = "fileInput";
 
 }

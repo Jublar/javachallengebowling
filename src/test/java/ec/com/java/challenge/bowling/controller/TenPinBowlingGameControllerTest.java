@@ -3,16 +3,17 @@ package ec.com.java.challenge.bowling.controller;
 import ec.com.java.challenge.bowling.input.FileMockUtil;
 import ec.com.java.challenge.bowling.output.ConsoleGameOutputWriter;
 import ec.com.java.challenge.bowling.output.IGameOutputWriter;
+import ec.com.java.challenge.bowling.util.Constants;
 import ec.com.java.challenge.bowling.util.GameInputType;
 import ec.com.java.challenge.bowling.util.GameOutputType;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TenPinBowlingGameControllerTest {
 
@@ -20,7 +21,9 @@ public class TenPinBowlingGameControllerTest {
 
     @BeforeClass
     public static void init() {
-        controller = new TenPinBowlingGameController(GameInputType.FILE, GameOutputType.CONSOLE, FileMockUtil.FILE_PATH);
+        Map<String, String> extraInputInfo = new HashMap<>();
+        extraInputInfo.put(Constants.EXTRA_INFO_FILE_KEY, FileMockUtil.FILE_PATH);
+        controller = new TenPinBowlingGameController(GameInputType.FILE, GameOutputType.CONSOLE, extraInputInfo);
     }
 
     @Test
