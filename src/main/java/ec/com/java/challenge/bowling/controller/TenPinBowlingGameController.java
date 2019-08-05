@@ -1,5 +1,6 @@
 package ec.com.java.challenge.bowling.controller;
 
+import ec.com.java.challenge.bowling.exception.InputValidationException;
 import ec.com.java.challenge.bowling.game.IBowlingGame;
 import ec.com.java.challenge.bowling.input.FileGameInputReader;
 import ec.com.java.challenge.bowling.input.IGameInputReader;
@@ -65,24 +66,28 @@ public class TenPinBowlingGameController implements IBowlingGameController {
             System.out.println(String.format("Type of input %s not implemented yet", gameInputType));
             return;
         }
-        if (gameInputType != GameInputType.FILE &&
-                (extraInputInfo == null ||
-                        !extraInputInfo.containsKey(Constants.EXTRA_INFO_FILE_KEY) ||
-                        "".equals(extraInputInfo.get(Constants.EXTRA_INFO_FILE_KEY)))) {
+        if (validateFileExtraInputInput()) {
             System.out.print("Please enter file path to load game input: ");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             try {
                 extraInputInfo.put(Constants.EXTRA_INFO_FILE_KEY, reader.readLine());
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new InputValidationException("Error reading input file.", e);
             }
         }
         try {
             inputReader = new FileGameInputReader(extraInputInfo.get(Constants.EXTRA_INFO_FILE_KEY), new FileTabGameInputValidator());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new InputValidationException("Error reading input file.", e);
         }
 
+    }
+
+    private boolean validateFileExtraInputInput() {
+        return gameInputType == GameInputType.FILE &&
+                (extraInputInfo == null ||
+                        !extraInputInfo.containsKey(Constants.EXTRA_INFO_FILE_KEY) ||
+                        "".equals(extraInputInfo.get(Constants.EXTRA_INFO_FILE_KEY)));
     }
 
     private void buildOutputWriter() {
