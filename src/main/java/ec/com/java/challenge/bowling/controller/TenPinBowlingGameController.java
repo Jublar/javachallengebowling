@@ -24,20 +24,22 @@ import java.util.List;
  */
 public class TenPinBowlingGameController implements IBowlingGameController {
 
-    private IGameInputReader inputReader;
-    private IGameOutputWriter outputWriter;
+    IGameInputReader inputReader;
+    IGameOutputWriter outputWriter;
+
     private final GameInputType gameInputType;
     private final GameOutputType gameOutputType;
-
+    private String fileName;
     /**
      * <p>Constructor for TenPinBowlingGameController.</p>
      *
      * @param gameInputType a {@link ec.com.java.challenge.bowling.util.GameInputType} object.
      * @param gameOutputType a {@link ec.com.java.challenge.bowling.util.GameOutputType} object.
      */
-    public TenPinBowlingGameController(GameInputType gameInputType, GameOutputType gameOutputType) {
+    public TenPinBowlingGameController(GameInputType gameInputType, GameOutputType gameOutputType, String fileName) {
         this.gameInputType = gameInputType;
         this.gameOutputType = gameOutputType;
+        this.fileName = fileName;
     }
 
     /** {@inheritDoc} */
@@ -53,17 +55,25 @@ public class TenPinBowlingGameController implements IBowlingGameController {
     }
 
     private void buildInputReader() {
-        if (gameInputType == GameInputType.FILE) {
+        if (gameInputType != GameInputType.FILE) {
+            System.out.println(String.format("Type of input %s not implemented yet", gameInputType));
+            return;
+        }
+        if(fileName == null || "".equals(fileName)) {
             System.out.print("Please enter file path to load game input: ");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             try {
-                inputReader = new FileGameInputReader(reader.readLine(), new FileTabGameInputValidator());
+                fileName = reader.readLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            System.out.println(String.format("Type of input %s not implemented yet", gameInputType));
         }
+        try {
+            inputReader = new FileGameInputReader(fileName, new FileTabGameInputValidator());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void buildOutputWriter() {
@@ -73,4 +83,5 @@ public class TenPinBowlingGameController implements IBowlingGameController {
             System.out.println(String.format("Type of output %s not implemented yet", gameOutputType));
         }
     }
+
 }

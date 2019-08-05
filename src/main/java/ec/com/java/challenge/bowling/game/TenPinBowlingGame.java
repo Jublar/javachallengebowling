@@ -89,6 +89,8 @@ public class TenPinBowlingGame extends AbstractBowlingGame {
             } else if(frame.isSpare()) {
                 score += 10;
                 nextShots = 1;
+                if(frameIndex == (Constants.MAX_FRAMES - 1))
+                    nextShotIndex ++;
             } else {
                 score = frame.getTurns().stream().mapToInt(BowlingTurn::getPins).sum();
             }

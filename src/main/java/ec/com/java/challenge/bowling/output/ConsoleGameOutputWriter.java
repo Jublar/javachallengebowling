@@ -15,15 +15,23 @@ import java.util.stream.IntStream;
  * @author Jublar Garcia Ramos
  * @version 1.0
  */
-public class ConsoleGameOutputWriter implements IGameOutputWriter {
+public class ConsoleGameOutputWriter implements IGameOutputWriter<List<String>> {
 
     private static final String SEPARATOR = "\t";
-
+    List<String> writeResult;
     /** {@inheritDoc} */
     @Override
     public void write(List<IBowlingGame> games) {
-        System.out.println(headerLine());
-        games.forEach(g -> gameLine(g).stream().forEach(l -> System.out.println(l)));
+        writeResult = new ArrayList<>();
+        writeResult.add(headerLine());
+        games.forEach(g -> gameLine(g).stream().forEach(gameLine -> writeResult.add(gameLine)));
+        writeResult.forEach(line -> System.out.println(line));
+        //System.out.println(result.append().toString());
+    }
+
+    @Override
+    public List<String> getWriteResult() {
+        return writeResult;
     }
 
     private static String headerLine() {
@@ -77,10 +85,8 @@ public class ConsoleGameOutputWriter implements IGameOutputWriter {
 
     private static String bonusFramePinFall(BowlingFrame frame) {
         String turn1 = "", turn2 = "", turn3 = "";
-        if (frame.getTurns().size() > 2)
-            turn1 = Constants.MSG_STRIKE_PINFALL;
-        else
-            turn1 = turnValue(frame, 0);
+
+        turn1 = turnValue(frame, 0);
         turn2 = frame.isSpare() ? Constants.MSG_SPARE_PINFALL : turnValue(frame, 1);
         turn3 = turnValue(frame, 2);
         return String.format("%s%s%s%s%s%s", SEPARATOR, turn1, SEPARATOR, turn2, SEPARATOR, turn3);

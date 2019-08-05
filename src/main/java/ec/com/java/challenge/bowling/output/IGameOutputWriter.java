@@ -10,11 +10,12 @@ import java.util.List;
  * @author Jublar Garcia Ramos
  * @version 1.0
  */
-public interface IGameOutputWriter {
+public interface IGameOutputWriter<T> {
     /**
      * <p>write.</p>
      *
      * @param games a {@link java.util.List} object.
      */
     void write(List<IBowlingGame> games);
+    T getWriteResult();
 }

@@ -21,7 +21,11 @@ public class Main {
      */
     public static void main(String... args) {
         try {
-            IBowlingGameController controller = new TenPinBowlingGameController(GameInputType.FILE, GameOutputType.CONSOLE);
+            String fileName = "";
+            if(args.length>0) {
+                fileName = args[0];
+            }
+            IBowlingGameController controller = new TenPinBowlingGameController(GameInputType.FILE, GameOutputType.CONSOLE, fileName);
             controller.run();
         } catch (InputValidationException | RollValidationException e) {
             System.err.println(e.getMessage());
